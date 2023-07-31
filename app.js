@@ -50,16 +50,16 @@ let jsObject = {
                 "id": "2"
             }}
     ]}
-let params = {
-    elements: "<ns1:input xmlns:ns1=\"ns1:test\" xmlns:ns2=\"ns2:test\">",
-    element: "<ns1:element id=@id>",
-    other: "<ns2:@fieldName>"
-}
-
+let params = [
+    {elements: "<ns1:input xmlns:ns1=\"ns1:test\" xmlns:ns2=\"ns2:test\">"},
+    {element: "<ns1:element id=@id>"},
+    {other: "<ns2:@fieldName>"}
+]
 Converter.xml2JsObject(xml).then(res=>{
     jsObject = res.object
     params = res.params
     console.log(jsObject)
+    console.log(params)
 }, err=>{
     console.log(err)
 })
@@ -68,6 +68,4 @@ Converter.sjObject2Xml(jsObject,params).then(res =>{
 }, err =>{
     console.log(err)
 })
-
-
 

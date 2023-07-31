@@ -21,8 +21,7 @@ app.use('/users', usersRouter);
 
 module.exports = app;
 
-let xml = "" +
-    "<ns1:input xmlns:ns1=\"ns1:test\" xmlns:ns2=\"ns2:test\">\n" +
+let xml = "<ns1:input xmlns:ns1=\"ns1:test\" xmlns:ns2=\"ns2:test\">\n" +
     "<ns1:element id=\"1\">\n" +
     "<ns2:field1>1</ns2:field1>\n" +
     "<ns2:field2>2</ns2:field2>\n" +
@@ -30,8 +29,7 @@ let xml = "" +
     "</ns1:element>\n" +
     "<ns1:element id=\"2\">\n" +
     "<ns2:field1>4</ns2:field1>\n" +
-    "<ns2:field2>5</ns2:field2>\n" +
-    "<ns2:field3>6</ns2:field3>\n" +
+    "<ns2:field2>5</ns2:field2> <ns2:field3>6</ns2:field3>\n" +
     "</ns1:element>\n" +
     "</ns1:input>"
 
@@ -50,20 +48,20 @@ let jsObject = {
                 "id": "2"
             }}
     ]}
-let params = [
-    {elements: "<ns1:input xmlns:ns1=\"ns1:test\" xmlns:ns2=\"ns2:test\">"},
-    {element: "<ns1:element id=@id>"},
-    {other: "<ns2:@fieldName>"}
-]
-Converter.xml2JsObject(xml).then(res=>{
-    jsObject = res.object
-    params = res.params
-    console.log(jsObject)
-    console.log(params)
+
+let params = {
+    elements: "<ns1:input xmlns:ns1=\"ns1:test\" xmlns:ns2=\"ns2:test\">",
+    element: "<ns1:element id=@id>",
+    other: "<ns2:@fieldName>"
+}
+Converter.xml2JsObject(xml).then(generatedJsObject=>{
+    console.log(generatedJsObject.toString() == jsObject.toString())
+    console.log(generatedJsObject)
 }, err=>{
     console.log(err)
 })
-Converter.sjObject2Xml(jsObject,params).then(res =>{
+Converter.jsObject2Xml(jsObject,params).then(res =>{
+    console.log("================")
     console.log(res)
 }, err =>{
     console.log(err)
